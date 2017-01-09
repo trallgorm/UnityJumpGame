@@ -11,7 +11,7 @@ public class LaserScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        transform.localPosition += transform.right * 10f * Time.deltaTime;
+        transform.localPosition += transform.right * 3f * Time.deltaTime;
         if(transform.localPosition.x>20)
         {
             Destroy(this.gameObject);
