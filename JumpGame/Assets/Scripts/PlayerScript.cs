@@ -18,8 +18,8 @@ public class PlayerScript : MonoBehaviour {
     public float spawnTime3 = 1f;
     public Text HPText;
     private int HP=10;
-    public float maxTime = 100f;
-    public float minTime = 100f;
+    private float maxTime = 6f;
+    private float minTime = 4f;
     private float time=0;
     private float time1 = 0;
     private float time2 = 0;
