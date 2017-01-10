@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerScript : MonoBehaviour {
+public class PlayerScript : MonoBehaviour
+{
 
     public float speed;
 
@@ -17,10 +18,10 @@ public class PlayerScript : MonoBehaviour {
     public float spawnTime2 = 1f;
     public float spawnTime3 = 1f;
     public Text HPText;
-    private int HP=10;
+    private int HP = 10;
     private float maxTime = 6f;
     private float minTime = 4f;
-    private float time=0;
+    private float time = 0;
     private float time1 = 0;
     private float time2 = 0;
     private float time3 = 0;
@@ -33,7 +34,7 @@ public class PlayerScript : MonoBehaviour {
         spawnTime2 = Random.Range(minTime, maxTime);
         spawnTime3 = Random.Range(minTime, maxTime);
         rb = GetComponent<Rigidbody>();
-        HPText.text = "HP: " + HP.ToString() +" Score: " + (totaltime / 100).ToString();
+        HPText.text = "HP: " + HP.ToString() + " Score: " + (totaltime / 100).ToString();
     }
 
     void FixedUpdate()
@@ -55,6 +56,8 @@ public class PlayerScript : MonoBehaviour {
                 rb.AddForce(Vector3.up * 400f);
             }
         }
+        if (rb.position.y < -5)
+            GameOver();
         if (Input.GetKeyDown("s"))
         {
             rb.AddForce(Vector3.down * 800f);
@@ -90,7 +93,7 @@ public class PlayerScript : MonoBehaviour {
             spawnTime3 = Random.Range(minTime, maxTime);
         }
         totaltime += 1;
-        HPText.text = "HP: " + HP.ToString() + " Score: " + (totaltime/100).ToString();
+        HPText.text = "HP: " + HP.ToString() + " Score: " + (totaltime / 100).ToString();
     }
     void OnTriggerEnter(Collider other)
     {
@@ -99,17 +102,7 @@ public class PlayerScript : MonoBehaviour {
             HP -= 1;
             if (HP < 1)
             {
-                int score=0;
-                if (PlayerPrefs.HasKey("HighScore"))
-                {
-                    score = PlayerPrefs.GetInt("HighScore");
-                }
-                if (totaltime > score)
-                {
-                    PlayerPrefs.SetInt("HighScore", totaltime/100);
-                }
-                PlayerPrefs.SetInt("Score", totaltime/100);
-                Application.LoadLevel("GameOverScene");
+                GameOver();
             }
             HPText.text = "HP: " + HP.ToString() + " Score: " + (totaltime / 100).ToString();
             Destroy(other.gameObject);
@@ -143,8 +136,21 @@ public class PlayerScript : MonoBehaviour {
         var newLaser = GameObject.Instantiate(rightlaser, position, Quaternion.Euler(0, 90, 0));
         newLaser.SetActive(true);
     }
+    void GameOver()
+    {
+        int score = 0;
+        if (PlayerPrefs.HasKey("HighScore"))
+        {
+            score = PlayerPrefs.GetInt("HighScore");
+        }
+        if (totaltime > score)
+        {
+            PlayerPrefs.SetInt("HighScore", totaltime / 100);
+        }
+        PlayerPrefs.SetInt("Score", totaltime / 100);
+        Application.LoadLevel("GameOverScene");
+    }
 }
-
 //references
 // http://answers.unity3d.com/questions/398607/spawn-after-every-5-seconds.html
 //https://unity3d.com/learn/tutorials/projects/roll-ball-tutorial/moving-camera?playlist=17141
