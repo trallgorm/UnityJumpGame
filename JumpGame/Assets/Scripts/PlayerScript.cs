@@ -24,6 +24,7 @@ public class PlayerScript : MonoBehaviour {
     private float time1 = 0;
     private float time2 = 0;
     private float time3 = 0;
+    private int totaltime = 0;
 
     void Start()
     {
@@ -32,7 +33,7 @@ public class PlayerScript : MonoBehaviour {
         spawnTime2 = Random.Range(minTime, maxTime);
         spawnTime3 = Random.Range(minTime, maxTime);
         rb = GetComponent<Rigidbody>();
-        HPText.text = "HP: " + HP.ToString();
+        HPText.text = "HP: " + HP.ToString() +" Score: " + (totaltime / 100).ToString();
     }
 
     void FixedUpdate()
@@ -49,7 +50,7 @@ public class PlayerScript : MonoBehaviour {
     {
         if (Input.GetKeyDown("space"))
         {
-            if (rb.position.y < 1)
+            if (rb.position.y < 1 && rb.position.y > -1)
             {
                 rb.AddForce(Vector3.up * 400f);
             }
@@ -88,6 +89,8 @@ public class PlayerScript : MonoBehaviour {
             SpawnRightLaser();
             spawnTime3 = Random.Range(minTime, maxTime);
         }
+        totaltime += 1;
+        HPText.text = "HP: " + HP.ToString() + " Score: " + (totaltime/100).ToString();
     }
     void OnTriggerEnter(Collider other)
     {
@@ -98,7 +101,7 @@ public class PlayerScript : MonoBehaviour {
             {
                 Application.Quit();
             }
-            HPText.text = "HP: " + HP.ToString();
+            HPText.text = "HP: " + HP.ToString() + " Score: " + (totaltime / 100).ToString();
             Destroy(other.gameObject);
         }
     }
