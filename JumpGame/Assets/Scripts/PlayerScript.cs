@@ -99,7 +99,17 @@ public class PlayerScript : MonoBehaviour {
             HP -= 1;
             if (HP < 1)
             {
-                Application.Quit();
+                int score=0;
+                if (PlayerPrefs.HasKey("HighScore"))
+                {
+                    score = PlayerPrefs.GetInt("HighScore");
+                }
+                if (totaltime > score)
+                {
+                    PlayerPrefs.SetInt("HighScore", totaltime/100);
+                }
+                PlayerPrefs.SetInt("Score", totaltime/100);
+                Application.LoadLevel("GameOverScene");
             }
             HPText.text = "HP: " + HP.ToString() + " Score: " + (totaltime / 100).ToString();
             Destroy(other.gameObject);
